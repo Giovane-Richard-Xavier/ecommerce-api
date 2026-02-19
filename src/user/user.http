@@ -9,3 +9,6 @@ Content-Type: application/json
     "email": "giovanerichard@email.com",
     "password": "123456"
 }
+
+### Get All Users
+GET {{baseUrl}}/users?page=1&limit=10

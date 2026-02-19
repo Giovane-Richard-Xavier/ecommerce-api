@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,8 +23,11 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAllUsers(
+    @Query('page', new ParseIntPipe()) page = 1,
+    @Query('limit', new ParseIntPipe()) limit = 10,
+  ) {
+    return this.userService.findAllUsers({ page, limit });
   }
 
   @Get(':id')
