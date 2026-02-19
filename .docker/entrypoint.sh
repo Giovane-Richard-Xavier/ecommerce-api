@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "📦 Installing dependencies..."
+npm install
+
 echo "⏳ Waiting database..."
 sleep 5
 
