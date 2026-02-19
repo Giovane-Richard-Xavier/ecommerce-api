@@ -1,5 +1,17 @@
 @baseUrl = http://localhost:3001
 
+### Auth LOGIN
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "giovanerichard@gmail.com",
+  "password": "000000"
+}
+
+### Auth LOGOUT
+POST {{baseUrl}}/auth/logout
+
 ### Create User
 POST {{baseUrl}}/users
 Content-Type: application/json
