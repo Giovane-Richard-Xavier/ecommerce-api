@@ -5,10 +5,24 @@ POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-    "name": "Giovane Richard",
-    "email": "giovanerichard@email.com",
-    "password": "123456"
+  "name": "User Teste",
+  "email": "userteste@email.com",
+  "password": "123456"
 }
 
 ### Get All Users
 GET {{baseUrl}}/users?page=1&limit=10
+
+### Get User By Id
+GET {{baseUrl}}/users/41700f4e-8e63-49cc-bdd0-e05354260e22
+
+### Update User
+PATCH  {{baseUrl}}/users/41700f4e-8e63-49cc-bdd0-e05354260e22
+Content-Type: application/json
+
+{
+  "name": "Giovane Richard Xavier"
+}
+
+### Remove User
+DELETE {{baseUrl}}/users/e47c1f1d-f6be-4c7e-ac8f-46372e152734
