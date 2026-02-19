@@ -1,4 +1,13 @@
-import { IsEmail, IsNotEmpty, IsString, Max, Min } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -10,6 +19,11 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  @IsNotEmpty()
+  @MinLength(6)
+  @MaxLength(20)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message:
+      'The password must be at least 6 characters long, including uppercase letters, typographical letters, and at least one number or special character.',
+  })
   password: string;
 }
