@@ -1,0 +1,59 @@
+import { Injectable } from '@nestjs/common';
+import { CreateBannerDto } from './dto/create-banner.dto';
+import { UpdateBannerDto } from './dto/update-banner.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { PaginationParameters } from 'src/types/pagination-parameters';
+
+@Injectable()
+export class BannerService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createBannerDto: CreateBannerDto) {
+    const banner = await this.prisma.banner.create({
+      data: createBannerDto,
+    });
+
+    return banner;
+  }
+
+  async findAllBanner(parameter: PaginationParameters) {
+    const { page, limit, sort = 'desc' } = parameter;
+    const currentPage = Math.max(page, 1);
+    const itemsPerPage = Math.max(limit, 1);
+    const skip = (currentPage - 1) * itemsPerPage;
+
+    const [totalItems, banners] = await this.prisma.$transaction([
+      this.prisma.banner.count(),
+      this.prisma.banner.findMany({
+        skip,
+        take: itemsPerPage,
+        orderBy: { createdAt: sort },
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    return {
+      data: banners,
+      meta: {
+        totalItems,
+        itemCount: banners.length,
+        itemsPerPage,
+        totalPages,
+        currentPage,
+      },
+    };
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} banner`;
+  }
+
+  update(id: number, updateBannerDto: UpdateBannerDto) {
+    return `This action updates a #${id} banner`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} banner`;
+  }
+}

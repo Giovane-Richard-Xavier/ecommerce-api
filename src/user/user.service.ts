@@ -8,6 +8,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import bcrypt from 'bcrypt';
 import { PaginationParameters } from 'src/types/pagination-parameters';
+import { buildPaginationMeta } from 'src/utils/pagination.util';
 
 @Injectable()
 export class UserService {
@@ -43,15 +44,16 @@ export class UserService {
 
   async findAllUsers(parameters: PaginationParameters) {
     const { page, limit, sort = 'desc' } = parameters;
-    const currentPage = Math.max(page, 1);
-    const currentLimit = Math.max(limit, 1);
-    const skip = (currentPage - 1) * currentLimit;
 
-    const [total, users] = await this.prisma.$transaction([
+    const currentPage = Math.max(page, 1);
+    const itemsPerPage = Math.max(limit, 1);
+    const skip = (currentPage - 1) * itemsPerPage;
+
+    const [totalItems, users] = await this.prisma.$transaction([
       this.prisma.user.count(),
       this.prisma.user.findMany({
         skip,
-        take: currentLimit,
+        take: itemsPerPage,
         orderBy: { createdAt: sort },
         select: {
           id: true,
@@ -63,17 +65,16 @@ export class UserService {
       }),
     ]);
 
+    const meta = buildPaginationMeta(
+      totalItems,
+      currentPage,
+      itemsPerPage,
+      users.length,
+    );
+
     return {
       data: users,
-      meta: {
-        total,
-        page: currentPage,
-        limit: currentLimit,
-        totalPage: Math.ceil(total / currentLimit),
-        hasNextPage: currentPage < Math.ceil(total / currentLimit),
-        hasPrevPage: currentPage,
-        sort,
-      },
+      meta,
     };
   }
 

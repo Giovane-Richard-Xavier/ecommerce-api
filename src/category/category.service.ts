@@ -39,7 +39,7 @@ export class CategoryService {
         limit: currentLimit,
         totalPage: Math.ceil(total / currentLimit),
         hasNextPage: currentPage < Math.ceil(total / currentLimit),
-        hasPrevPage: currentPage,
+        hasPrevPage: currentPage > 1,
         sort,
       },
     };
