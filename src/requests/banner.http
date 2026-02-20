@@ -5,23 +5,20 @@ POST {{baseUrl}}/banner
 Content-Type: application/json
 
 {
-  "name": "Informática",
-  "slug": "info"
+  "img": "camisateste",
+  "link": "linkteste"
 }
 
 ### Get All Categories
 GET {{baseUrl}}/banner?page=1&limit=10
 
 ### Get banner by Id
-GET {{baseUrl}}/banner/2fbf95fa-df03-4343-9965-f864dd2b97ad
-
-### Get banner by Slug
-GET {{baseUrl}}/banner/info/metadata
+GET {{baseUrl}}/banner/0f54fe15-e4d5-4df5-8746-6195c7f3fc6e
 
 ### Updated banner
 PATCH {{baseUrl}}/banner/2fbf95fa-df03-4343-9965-f864dd2b97ad
 Content-Type: application/json
 
 {
-  "name": "Informática básica"
+  "img": "gabinete_gamer"
 }

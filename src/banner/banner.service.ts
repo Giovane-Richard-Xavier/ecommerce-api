@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -41,20 +41,32 @@ export class BannerService {
     );
 
     return {
-      data: banners,
+      data: banners.map((banner) => ({
+        ...banner,
+        img: `media/banners/${banner.img}`,
+      })),
       meta,
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} banner`;
+  async findBannerById(id: string) {
+    const banner = await this.prisma.banner.findUnique({ where: { id } });
+
+    if (!banner) {
+      throw new NotFoundException(`Not found Banner with ID: ${id}`);
+    }
+
+    return {
+      ...banner,
+      img: `media/banners/${banner.img}`,
+    };
   }
 
-  update(id: number, updateBannerDto: UpdateBannerDto) {
+  update(id: string, updateBannerDto: UpdateBannerDto) {
     return `This action updates a #${id} banner`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} banner`;
   }
 }
