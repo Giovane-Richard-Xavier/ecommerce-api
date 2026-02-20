@@ -1,0 +1,40 @@
+@baseUrl = http://localhost:3001
+
+### Auth LOGIN
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "grx@gmail.com",
+  "password": "Grx@123"
+}
+
+### Auth LOGOUT
+POST {{baseUrl}}/logout
+
+### Create User
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Giovane Richard",
+  "email": "grx@gmail.com",
+  "password": "Grx@123"
+}
+
+### Get All Users
+GET {{baseUrl}}/users?page=1&limit=10
+
+### Get User By Id
+GET {{baseUrl}}/users/41700f4e-8e63-49cc-bdd0-e05354260e22
+
+### Update User
+PATCH  {{baseUrl}}/users/ec4e011e-9cdb-4b0e-b200-8fa5110396b4
+Content-Type: application/json
+
+{
+  "name": "Giovane Richard Xavier"
+}
+
+### Remove User
+DELETE {{baseUrl}}/users/e47c1f1d-f6be-4c7e-ac8f-46372e152734
