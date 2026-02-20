@@ -3,6 +3,7 @@ import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PaginationParameters } from 'src/types/pagination-parameters';
+import { buildPaginationMeta } from 'src/utils/pagination.util';
 
 @Injectable()
 export class BannerService {
@@ -18,6 +19,7 @@ export class BannerService {
 
   async findAllBanner(parameter: PaginationParameters) {
     const { page, limit, sort = 'desc' } = parameter;
+
     const currentPage = Math.max(page, 1);
     const itemsPerPage = Math.max(limit, 1);
     const skip = (currentPage - 1) * itemsPerPage;
@@ -31,17 +33,16 @@ export class BannerService {
       }),
     ]);
 
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const meta = buildPaginationMeta(
+      totalItems,
+      currentPage,
+      itemsPerPage,
+      banners.length,
+    );
 
     return {
       data: banners,
-      meta: {
-        totalItems,
-        itemCount: banners.length,
-        itemsPerPage,
-        totalPages,
-        currentPage,
-      },
+      meta,
     };
   }
 
