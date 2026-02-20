@@ -102,7 +102,9 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException(`Not Found User with email: ${email}`);
+      throw new NotFoundException(
+        `Email address or password provided is incorrect.`,
+      );
     }
 
     return user;

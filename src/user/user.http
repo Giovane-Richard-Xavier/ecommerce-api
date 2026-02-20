@@ -1,25 +1,25 @@
 @baseUrl = http://localhost:3001
 
 ### Auth LOGIN
-POST {{baseUrl}}/auth/login
+POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "email": "giovanerichard@gmail.com",
-  "password": "000000"
+  "email": "grx@gmail.com",
+  "password": "Grx@123"
 }
 
 ### Auth LOGOUT
-POST {{baseUrl}}/auth/logout
+POST {{baseUrl}}/logout
 
 ### Create User
 POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-  "name": "Jhon Due",
-  "email": "jhonduee@gmail.com",
-  "password": "User@123"
+  "name": "Giovane Richard",
+  "email": "grx@gmail.com",
+  "password": "Grx@123"
 }
 
 ### Get All Users
@@ -29,7 +29,7 @@ GET {{baseUrl}}/users?page=1&limit=10
 GET {{baseUrl}}/users/41700f4e-8e63-49cc-bdd0-e05354260e22
 
 ### Update User
-PATCH  {{baseUrl}}/users/41700f4e-8e63-49cc-bdd0-e05354260e22
+PATCH  {{baseUrl}}/users/ec4e011e-9cdb-4b0e-b200-8fa5110396b4
 Content-Type: application/json
 
 {
