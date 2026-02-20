@@ -3,6 +3,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PaginationParameters } from 'src/types/pagination-parameters';
+import { buildPaginationMeta } from 'src/utils/pagination.util';
 
 @Injectable()
 export class CategoryService {
@@ -18,30 +19,30 @@ export class CategoryService {
 
   async findAllCategories(parameter: PaginationParameters) {
     const { page, limit, sort = 'desc' } = parameter;
-    const currentPage = Math.max(page, 1);
-    const currentLimit = Math.max(limit, 1);
-    const skip = (currentPage - 1) * currentLimit;
 
-    const [total, categories] = await this.prisma.$transaction([
+    const currentPage = Math.max(page, 1);
+    const itemsPerPage = Math.max(limit, 1);
+    const skip = (currentPage - 1) * itemsPerPage;
+
+    const [totalItems, categories] = await this.prisma.$transaction([
       this.prisma.category.count(),
       this.prisma.category.findMany({
         skip,
-        take: currentLimit,
+        take: itemsPerPage,
         orderBy: { createdAt: sort },
       }),
     ]);
 
+    const meta = buildPaginationMeta(
+      totalItems,
+      currentPage,
+      itemsPerPage,
+      categories.length,
+    );
+
     return {
       data: categories,
-      meta: {
-        total,
-        page: currentPage,
-        limit: currentLimit,
-        totalPage: Math.ceil(total / currentLimit),
-        hasNextPage: currentPage < Math.ceil(total / currentLimit),
-        hasPrevPage: currentPage > 1,
-        sort,
-      },
+      meta,
     };
   }
 
