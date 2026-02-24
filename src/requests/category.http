@@ -1,0 +1,27 @@
+@baseUrl = http://localhost:3001
+
+### Create Category
+POST {{baseUrl}}/category
+Content-Type: application/json
+
+{
+  "name": "Informática",
+  "slug": "info"
+}
+
+### Get All Categories
+GET {{baseUrl}}/category?page=1&limit=10
+
+### Get Category by Id
+GET {{baseUrl}}/category/2fbf95fa-df03-4343-9965-f864dd2b97ad
+
+### Get Category by Slug
+GET {{baseUrl}}/category/info/metadata
+
+### Updated Category
+PATCH {{baseUrl}}/category/2fbf95fa-df03-4343-9965-f864dd2b97ad
+Content-Type: application/json
+
+{
+  "name": "Informática básica"
+}

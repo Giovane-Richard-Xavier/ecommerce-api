@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:3001
+
+### Auth LOGIN
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "grx@gmail.com",
+  "password": "Grx@123"
+}
+
+### Auth LOGOUT
+POST {{baseUrl}}/logout
